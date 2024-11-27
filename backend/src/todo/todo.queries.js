@@ -10,11 +10,17 @@ const editTodoList = 'UPDATE "TodoList" SET "TodoItem"=$1 WHERE "ID"= $2;'
 
 const deleteTodoList = 'UPDATE "TodoList" SET "IsActive"=false WHERE "ID"= $1;'
 
+const getTodoListCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "IsActive" = true;'
+
+const getAllTodoListPaginated= 'SELECT "ID", "TodoItem", "Complete", "IsActive" FROM public."TodoList" WHERE "IsActive"=true ORDER BY "ID" ASC LIMIT $1 OFFSET $2;'
+
 module.exports = {
   getAllTodoList,
   getActiveTodoListById,
   createTodoList,
   editTodoList,
   deleteTodoList,
-  getTodoListById
+  getTodoListById,
+  getTodoListCount,
+  getAllTodoListPaginated
 }

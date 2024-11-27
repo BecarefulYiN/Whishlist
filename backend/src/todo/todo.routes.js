@@ -4,7 +4,7 @@ const controller = require('./todo.controller')
 
 
 //getAll
-router.get('/', controller.getAllTodoLists)
+router.post('/filter', controller.getAllTodoLists)
 
 //post
 router.post('/', controller.createTodoList)
