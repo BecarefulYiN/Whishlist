@@ -33,7 +33,7 @@ const TodoCreateCard = () => {
     <div
       className='
         w-1/2 
-        bg-slate-100
+        bg-blue-gray-50
         h-1/4
         mt-10
         rounded-3xl

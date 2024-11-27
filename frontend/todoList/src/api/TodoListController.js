@@ -41,10 +41,8 @@ export const CreateTodoListsAPI = async (payload) => {
 
 export const DeleteTodoAPI = async (id) => {
   try {
-    const endpoint = `api/v1/todo/${id}`;  // Assuming your API uses this endpoint for marking todos as deleted
-    const res = await apiClient.patch(endpoint, {
-      status: 'deleted'  // Assuming the API expects a status change, you can adjust this depending on your backend API
-    });
+    const endpoint = `api/v1/todo/${id}`;  
+    const res = await apiClient.patch(endpoint);
 
     if (res.status === 200) {
       toast.success("Todo deleted successfully");
@@ -59,4 +57,15 @@ export const DeleteTodoAPI = async (id) => {
     return null;
   }
 };
+
+export const UpdateTodoAPI = async (id,payload) => {
+  try {
+    const endpoint = `api/v1/todo/${id}`;  
+    const res = await apiClient.put(endpoint,payload)
+  } catch(error) {
+    console.error("Error in UpdateTodoAPI:", error.message);
+    toast.error("An error occurred while update the todo");
+    return null;
+  }
+}
 

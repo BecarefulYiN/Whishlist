@@ -9,7 +9,7 @@ const TodoDisplayCard = () => {
         flex
         flex-col
         gap-10
-        bg-slate-100
+        bg-blue-gray-50
         h-auto
         rounded-3xl
         p-12
