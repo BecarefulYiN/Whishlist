@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
-const todoRoute = require('./src/todo/todo.routes');
+const todoRoute = require('./src/todo/todo.routes.js');
+const authRoute = require('./src/auth/auth.routes.js')
+const routes = require('./src/service/route.js')
+
 const cors = require('cors');
 require('dotenv').config()
 
@@ -23,6 +26,8 @@ app.use(express.urlencoded({extended: false}));
 
 // Routes
 app.use('/api/v1/todo', todoRoute);
+app.use('/api/v1/auth', authRoute);
+app.use(routes)
 
 const PORT = process.env.PORT || 5000
 
