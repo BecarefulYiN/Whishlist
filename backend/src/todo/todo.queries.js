@@ -1,18 +1,18 @@
-const getAllTodoList = 'SELECT "ID", "TodoItem", "Complete", "IsActive" FROM public."TodoList" WHERE "IsActive"=true ORDER BY "ID" ASC ;';
+const getAllTodoList = 'SELECT "ID", "TodoItem", "Complete", "IsActive", "userId" FROM public."TodoList" WHERE "userId" = $1 AND "IsActive"=true ORDER BY "ID" ASC ;';
 
-const getActiveTodoListById = 'SELECT "ID", "TodoItem", "Complete", "IsActive" FROM public."TodoList" WHERE "ID" = $1 AND "IsActive" = true ;';
+const getActiveTodoListById = 'SELECT "ID", "TodoItem", "Complete", "IsActive", "userId" FROM public."TodoList" WHERE "ID" = $1 AND "IsActive" = true ;';
 
-const getTodoListById = 'SELECT "ID", "TodoItem", "Complete", "IsActive" FROM public."TodoList" WHERE "ID" = $1;';
+const getTodoListById = 'SELECT "ID", "TodoItem", "Complete", "IsActive", "userId" FROM public."TodoList" WHERE "ID" = $1;';
 
-const createTodoList = 'INSERT INTO "TodoList" ("TodoItem") VALUES ($1);'
+const createTodoList = 'INSERT INTO "TodoList" ("TodoItem","userId") VALUES ($1,$2);'
 
 const editTodoList = 'UPDATE "TodoList" SET "TodoItem"=$1 WHERE "ID"= $2;'
 
 const deleteTodoList = 'UPDATE "TodoList" SET "IsActive"=false WHERE "ID"= $1;'
 
-const getTodoListCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "IsActive" = true;'
+const getTodoListCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "IsActive" = true AND "userId" = $1;'
 
-const getAllTodoListPaginated= 'SELECT "ID", "TodoItem", "Complete", "IsActive" FROM public."TodoList" WHERE "IsActive"=true ORDER BY "ID" ASC LIMIT $1 OFFSET $2;'
+const getAllTodoListPaginated= 'SELECT "ID", "TodoItem", "Complete", "IsActive","userId" FROM "TodoList" WHERE "IsActive"=true AND "userId" = $1 ORDER BY "ID" ASC LIMIT $2 OFFSET $3;'
 
 module.exports = {
   getAllTodoList,

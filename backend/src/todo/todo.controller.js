@@ -8,6 +8,7 @@ const {
 
 const getAllTodoLists = async (req, res) => {
   try {
+    const userId = req.user.userId;
     // Extract page and limit from the request body with default values
     const page = parseInt(req.body.page) || 1; // Default to page 1
     const limit = parseInt(req.body.limit) || 10; // Default to 10 items per page
@@ -16,14 +17,14 @@ const getAllTodoLists = async (req, res) => {
     const offset = (page - 1) * limit;
 
     // Query the database with pagination
-    const result = await pool.query(queries.getAllTodoListPaginated, [limit, offset]);
+    const result = await pool.query(queries.getAllTodoListPaginated, [userId,limit, offset]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ Message: "No list found" });
     }
 
     // Get the total count of todo items (for pagination metadata)
-    const countResult = await pool.query(queries.getTodoListCount);
+    const countResult = await pool.query(queries.getTodoListCount,[userId]);
     const totalItems = parseInt(countResult.rows[0].count);
 
     // Calculate total pages
@@ -45,6 +46,7 @@ const getAllTodoLists = async (req, res) => {
 
 const createTodoList = async (req, res) => {
   const { TodoItem } = req.body;
+  const userId = req.user.userId;
 
   const validation = validateTodoItem(TodoItem);
   if (!validation.valid) {
@@ -52,7 +54,7 @@ const createTodoList = async (req, res) => {
   }
 
   try {
-    await pool.query(queries.createTodoList, [TodoItem]);
+    await pool.query(queries.createTodoList, [TodoItem,userId]);
     res.status(200).json({ message: "Created successfully" });
   } catch (error) {
     res.status(500).json({ Message: error.message });
