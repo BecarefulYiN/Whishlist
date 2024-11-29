@@ -10,9 +10,9 @@ router.post('/filter',authenticateJWT, controller.getAllTodoLists)
 router.post('/', authenticateJWT,controller.createTodoList)
 
 //delete 
-router.patch("/:id",authenticateJWT,controller.deleteTodoList)
+router.patch("/:id",controller.deleteTodoList)
 
 //update 
-router.put("/:id",authenticateJWT, controller.UpdateTodoList)
+router.put("/:id", controller.UpdateTodoList)
 
 module.exports = router

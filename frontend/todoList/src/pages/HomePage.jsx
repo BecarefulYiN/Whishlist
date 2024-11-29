@@ -1,8 +1,16 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import TodoCreateCard from '../components/Cards/TodoCreateCard.jsx'
 import TodoDisplayCard from '../components/Cards/TodoDisplayCard.jsx'
 
 export const HomePage = () => {
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');  
+    if (!token) {
+      window.location.replace('/login');  
+    }
+  }, []);
+
   return (
     <div 
       className='

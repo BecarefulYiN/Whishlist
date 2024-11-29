@@ -8,7 +8,12 @@ const apiClient = axios.create({
 export const GetTodoListsAPI = async (payload, setTodoLists, setTotalRecords) => {
   try {
     const endpoint = 'api/v1/todo/filter';
-    const res = await apiClient.post(endpoint, payload);
+
+    const headers = {
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+    };
+
+    const res = await apiClient.post(endpoint, payload,{headers: headers});
 
     if (res.status === 200) {
       setTodoLists(res?.data?.Data || []);
@@ -24,7 +29,10 @@ export const GetTodoListsAPI = async (payload, setTodoLists, setTotalRecords) =>
 export const CreateTodoListsAPI = async (payload) => {
   try {
     const endpoint = 'api/v1/todo';
-    const res = await apiClient.post(endpoint, payload);
+    const headers = {
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+    };
+    const res = await apiClient.post(endpoint, payload, {headers: headers});
 
     if (res.status === 200) {
       toast.success("Created successfully.");
@@ -42,7 +50,12 @@ export const CreateTodoListsAPI = async (payload) => {
 export const DeleteTodoAPI = async (id) => {
   try {
     const endpoint = `api/v1/todo/${id}`;  
-    const res = await apiClient.patch(endpoint);
+    
+    const headers = {
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+    };
+
+    const res = await apiClient.patch(endpoint, {headers:headers});
 
     if (res.status === 200) {
       toast.success("Todo deleted successfully");

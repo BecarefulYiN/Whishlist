@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { DeleteTodoAPI, GetTodoListsAPI } from '../../api/TodoListController.js';
+import { DeleteTodoAPI, GetTodoListsAPI } from '../../api/todo/TodoListController.js';
 import EditDialog from '../Dialog/Todo/EditDialog.jsx';
 
 const TodoCard = () => {

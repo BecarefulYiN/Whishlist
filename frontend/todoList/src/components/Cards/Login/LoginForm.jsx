@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Input, Button } from "@material-tailwind/react";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { LoginAPI } from '../../../api/AuthController.js';
+import { LoginAPI } from '../../../api/auth/AuthController.js';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,8 +30,12 @@ const LoginForm = () => {
     setPassword(event.target.value);
   };
 
+  const handleRegister= () => {
+    window.location.replace('/register')
+  }
+
   return (
-    <Card className="px-10 py-20 w-1/4 h-auto flex flex-col justify-center align-middle gap-10 content-center text-center">
+    <Card className="px-10 py-20 w-1/4 h-auto flex flex-col justify-center shadow-lg align-middle gap-10 content-center text-center">
 
         <p className="text-3xl">
           Login
@@ -60,6 +64,13 @@ const LoginForm = () => {
       >
         Login
       </Button>
+
+        <a
+          className='underline cursor-pointer'
+          onClick={handleRegister}
+        >
+          Don't have a account register?
+        </a>
     </Card>
   );
 };

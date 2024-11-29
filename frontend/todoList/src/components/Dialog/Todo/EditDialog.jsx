@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
-import { UpdateTodoAPI } from '../../../api/TodoListController.js';
+import { UpdateTodoAPI } from '../../../api/todo/TodoListController.js';
 
 
 const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
