@@ -3,16 +3,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { DeleteTodoAPI, GetTodoListsAPI } from '../../api/todo/TodoListController.js';
 import EditDialog from '../Dialog/Todo/EditDialog.jsx';
+import Pagination from '../Pagination/Pagination.jsx';
 
 const TodoCard = () => {
   const [todoLists, setTodoLists] = useState([]);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [totalRecords, setTotalRecords] = useState();
+  const [page, setPage] = useState(1); 
+  const [limit, setLimit] = useState(4); 
+  const [totalRecords, setTotalRecords] = useState(0); 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [selectedTodo, setSelectedTodo] = useState(null); 
-  const [selectedId, setSelectedId] = useState('')
+  const [selectedTodo, setSelectedTodo] = useState(null);
+  const [selectedId, setSelectedId] = useState('');
 
+  
   useEffect(() => {
     const fetchTodoLists = async () => {
       const payload = { page, limit };
@@ -26,25 +28,30 @@ const TodoCard = () => {
     try {
       const response = await DeleteTodoAPI(id);
       if (response?.status === 200) {
+      
         setTodoLists((prevTodoLists) => prevTodoLists.filter((todo) => todo.ID !== id));
+        setTotalRecords((prevTotal) => prevTotal - 1); 
       } else {
-        console.log('Failed to delete todo');
+        console.error('Failed to delete todo');
       }
     } catch (error) {
       console.error('Error deleting todo:', error.message);
     }
   };
 
-  const handleEditDialogOpen = (todo,id) => {
-
-    setSelectedTodo(todo); 
-    setSelectedId(id)
+  const handleEditDialogOpen = (todo, id) => {
+    setSelectedTodo(todo);
+    setSelectedId(id);
     setIsEditDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
-    setIsEditDialogOpen(false); 
-    setSelectedTodo(null); 
+    setIsEditDialogOpen(false);
+    setSelectedTodo(null);
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage); 
   };
 
   return (
@@ -61,7 +68,7 @@ const TodoCard = () => {
               <button
                 className="text-gray-500 hover:text-blue-500 hover:scale-110 transition-transform duration-200 focus:outline-none p-2 hover:bg-blue-gray-50 rounded-full"
                 aria-label="Edit"
-                onClick={() => handleEditDialogOpen(todo,todo.ID)} // Pass the todo data for editing
+                onClick={() => handleEditDialogOpen(todo, todo.ID)}
               >
                 <EditIcon />
               </button>
@@ -79,10 +86,16 @@ const TodoCard = () => {
         <p className="text-lg text-gray-500 mt-4">No todos found</p>
       )}
 
+      <Pagination
+        totalPages={Math.ceil(totalRecords / limit)} 
+        initialPage={page} 
+        onPageChange={handlePageChange} 
+      />
+
       <EditDialog
         open={isEditDialogOpen}
-        handleClose={handleCloseDialog} 
-        selectedTodo={selectedTodo} 
+        handleClose={handleCloseDialog}
+        selectedTodo={selectedTodo}
         selectedId={selectedId}
       />
     </div>
