@@ -82,3 +82,37 @@ export const UpdateTodoAPI = async (id,payload) => {
   }
 }
 
+export const GetDelectedTodoItemsAPI = async (setDelectedItems) => {
+  try {
+    const endpoint = 'api/v1/todo/deleted-items'
+    const headers = {
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+    };
+    const res = await apiClient.get(endpoint, {headers: headers})
+
+    if (res.status === 200) {
+      setDelectedItems(res?.data?.Data || []);
+    } else {
+      console.error("Failed to fetch todo lists:", res.data?.Message || "Unknown error");
+    }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.Message) {
+      toast.error(error.response.data.Message); 
+    } else {
+      console.error(error);
+    }
+  }
+}
+
+export const RestoreDelectedTodoItemsAPI = async (id) => {
+  try {
+    const endpoint = `api/v1/todo/restore-delected/${id}`;  
+    await apiClient.put(endpoint)
+    toast.success("Restore Successfully")
+  } catch(error) {
+    console.error("Error in UpdateTodoAPI:", error.message);
+    toast.error("An error occurred while update the todo");
+    return null;
+  }
+}
+

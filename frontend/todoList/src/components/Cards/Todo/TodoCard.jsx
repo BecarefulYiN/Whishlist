@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { DeleteTodoAPI, GetTodoListsAPI } from '../../api/todo/TodoListController.js';
-import EditDialog from '../Dialog/Todo/EditDialog.jsx';
-import Pagination from '../Pagination/Pagination.jsx';
+import { DeleteTodoAPI, GetTodoListsAPI } from '../../../api/todo/TodoListController.js';
+import EditDialog from '../../Dialog/Todo/EditDialog.jsx';
+import Pagination from '../../Pagination/Pagination.jsx';
 
 const TodoCard = () => {
   const [todoLists, setTodoLists] = useState([]);
@@ -55,7 +55,7 @@ const TodoCard = () => {
   };
 
   return (
-    <div className="w-full h-auto flex flex-col justify-center items-center gap-10">
+    <div className="w-full h-auto flex flex-col justify-center items-center gap-6">
       {todoLists.length > 0 ? (
         todoLists.map((todo) => (
           <div

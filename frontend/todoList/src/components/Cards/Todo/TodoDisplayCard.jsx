@@ -12,7 +12,8 @@ const TodoDisplayCard = () => {
         bg-blue-gray-50
         h-auto
         rounded-3xl
-        p-12
+        px-12
+        py-5
       '
     >
       <p

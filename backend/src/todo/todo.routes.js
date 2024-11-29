@@ -5,6 +5,7 @@ const authenticateJWT = require('../middleware/JWTAuthentication.js');
 
 //getAll
 router.post('/filter',authenticateJWT, controller.getAllTodoLists)
+router.get('/deleted-items', authenticateJWT, controller.getAllTodoListThatHaveBeenDelected)
 
 //post
 router.post('/', authenticateJWT,controller.createTodoList)
@@ -14,5 +15,8 @@ router.patch("/:id",controller.deleteTodoList)
 
 //update 
 router.put("/:id", controller.UpdateTodoList)
+router.put("/restore-delected/:id", controller.restoreTheDeletedList)
+
+
 
 module.exports = router

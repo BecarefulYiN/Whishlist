@@ -1,19 +1,30 @@
-import React,{useEffect} from 'react'
-import TodoCreateCard from '../components/Cards/TodoCreateCard.jsx'
-import TodoDisplayCard from '../components/Cards/TodoDisplayCard.jsx'
+import React, { useState, useEffect } from 'react';
+import TodoCreateCard from '../components/Cards/Todo/TodoCreateCard.jsx';
+import TodoDisplayCard from '../components/Cards/Todo/TodoDisplayCard.jsx';
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import RestoreSlidePage from '../components/SlidePage/Todo/RestoreSlidePage.jsx';
 
 export const HomePage = () => {
+  const [isSlidePageVisible, setIsSlidePageVisible] = useState(false);
+  
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');  
+    const token = sessionStorage.getItem('token');
     if (!token) {
-      window.location.replace('/login');  
+      window.location.replace('/login');
     }
   }, []);
 
+  const toggleSlidePage = () => {
+    setIsSlidePageVisible(!isSlidePageVisible);
+  };
+
   return (
-    <div 
-      className='
+    <>
+  
+    
+      <div
+        className='
       flex 
       flex-col 
       gap-10
@@ -21,10 +32,35 @@ export const HomePage = () => {
       items-center
       bg-gray-300 
       h-screen 
+      relative
       '
-    >
-      <TodoCreateCard/>
-      <TodoDisplayCard/>
-    </div>
-  )
-}
+      >
+        <TodoCreateCard />
+        <TodoDisplayCard />
+        <button
+          className='
+          absolute
+          right-1/3
+          hover:bg-blue-gray-100
+          p-3
+          rounded-full
+          hover:text-green-700
+        '
+          style={{
+            top: "294px"
+          }}
+          onClick={toggleSlidePage}
+        >
+          <RestoreFromTrashIcon />
+        </button>
+
+        <RestoreSlidePage
+          isSlidePageVisible={isSlidePageVisible}
+          setIsSlidePageVisible={setIsSlidePageVisible}
+        />
+
+      </div>
+    </>
+
+  );
+};

@@ -9,9 +9,8 @@ const {
 const getAllTodoLists = async (req, res) => {
   try {
     const userId = req.user.userId;
-    // Extract page and limit from the request body with default values
-    const page = parseInt(req.body.page) || 1; // Default to page 1
-    const limit = parseInt(req.body.limit) || 10; // Default to 10 items per page
+    const page = parseInt(req.body.page) || 1; 
+    const limit = parseInt(req.body.limit) || 10; 
 
     // Calculate the offset
     const offset = (page - 1) * limit;
@@ -110,9 +109,37 @@ const UpdateTodoList = async (req, res) => {
   }
 };
 
+const getAllTodoListThatHaveBeenDelected = async(req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const result = await pool.query(queries.getAllTodoListThatHaveBeenDelected, [userId]);
+
+    res.status(200).json({
+      Data: result.rows,
+    });
+  } catch (error) {
+    res.status(500).json({ Message: error.message });
+  }
+}
+
+const restoreTheDeletedList = async (req,res) => {
+  try {
+    const { id } = req.params;
+
+    await pool.query(queries.restoreTheDeletedList, [id]);
+    res.status(200).json({ Message: "Restore Successfully" });
+  
+  } catch (error) {
+    res.status(500).json({ Message: error.message });
+  }
+} 
+
 module.exports = {
   getAllTodoLists,
   createTodoList,
   deleteTodoList,
-  UpdateTodoList
+  UpdateTodoList,
+  getAllTodoListThatHaveBeenDelected,
+  restoreTheDeletedList
 };

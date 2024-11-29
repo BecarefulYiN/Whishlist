@@ -1,4 +1,4 @@
-const getAllTodoList = 'SELECT "ID", "TodoItem", "Complete", "IsActive", "userId" FROM public."TodoList" WHERE "userId" = $1 AND "IsActive"=true ORDER BY "ID" ASC ;';
+
 
 const getActiveTodoListById = 'SELECT "ID", "TodoItem", "Complete", "IsActive", "userId" FROM public."TodoList" WHERE "ID" = $1 AND "IsActive" = true ;';
 
@@ -12,15 +12,20 @@ const deleteTodoList = 'UPDATE "TodoList" SET "IsActive"=false WHERE "ID"= $1;'
 
 const getTodoListCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "IsActive" = true AND "userId" = $1;'
 
-const getAllTodoListPaginated= 'SELECT "ID", "TodoItem", "Complete", "IsActive","userId" FROM "TodoList" WHERE "IsActive"=true AND "userId" = $1 ORDER BY "ID" ASC LIMIT $2 OFFSET $3;'
+const getAllTodoListPaginated= 'SELECT "ID", "TodoItem", "Complete", "IsActive","userId" FROM "TodoList" WHERE "IsActive"=true AND "userId" = $1 ORDER BY "ID" DESC LIMIT $2 OFFSET $3;'
+
+const getAllTodoListThatHaveBeenDelected = 'SELECT "ID", "TodoItem", "Complete", "IsActive","userId" FROM "TodoList" WHERE "IsActive"=false AND "userId" = $1 ORDER BY "ID" DESC'
+
+const restoreTheDeletedList = `UPDATE "TodoList" SET "IsActive"=true WHERE "ID"= $1;`
 
 module.exports = {
-  getAllTodoList,
   getActiveTodoListById,
   createTodoList,
   editTodoList,
   deleteTodoList,
   getTodoListById,
   getTodoListCount,
-  getAllTodoListPaginated
+  getAllTodoListPaginated,
+  getAllTodoListThatHaveBeenDelected,
+  restoreTheDeletedList
 }
