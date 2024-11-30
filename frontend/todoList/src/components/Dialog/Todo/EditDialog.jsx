@@ -32,7 +32,7 @@ const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
 
   return (
     <Dialog  className='bg-gray-100 rounded-3xl p-10 shadow-md' open={open}>
-      <DialogHeader>Edit Todo</DialogHeader>
+      <DialogHeader>Edit Todo Wish list</DialogHeader>
       <DialogBody >
         <input
           type="text"

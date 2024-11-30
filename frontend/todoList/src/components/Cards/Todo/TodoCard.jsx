@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import DetailsIcon from '@mui/icons-material/Details';
 import { DeleteTodoAPI, GetTodoListsAPI } from '../../../api/todo/TodoListController.js';
 import EditDialog from '../../Dialog/Todo/EditDialog.jsx';
 import Pagination from '../../Pagination/Pagination.jsx';
 
 const TodoCard = () => {
   const [todoLists, setTodoLists] = useState([]);
-  const [page, setPage] = useState(1); 
-  const [limit, setLimit] = useState(4); 
-  const [totalRecords, setTotalRecords] = useState(0); 
+  const [expandedTodoId, setExpandedTodoId] = useState(null); // Tracks which card is expanded
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(4);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [selectedId, setSelectedId] = useState('');
 
-  
   useEffect(() => {
     const fetchTodoLists = async () => {
       const payload = { page, limit };
@@ -28,9 +29,10 @@ const TodoCard = () => {
     try {
       const response = await DeleteTodoAPI(id);
       if (response?.status === 200) {
-      
-        setTodoLists((prevTodoLists) => prevTodoLists.filter((todo) => todo.ID !== id));
-        setTotalRecords((prevTotal) => prevTotal - 1); 
+        setTodoLists((prevTodoLists) =>
+          prevTodoLists.filter((todo) => todo.ID !== id)
+        );
+        setTotalRecords((prevTotal) => prevTotal - 1);
       } else {
         console.error('Failed to delete todo');
       }
@@ -51,7 +53,11 @@ const TodoCard = () => {
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage); 
+    setPage(newPage);
+  };
+
+  const toggleDetails = (id) => {
+    setExpandedTodoId((prevId) => (prevId === id ? null : id)); // Toggle the expansion
   };
 
   return (
@@ -60,36 +66,59 @@ const TodoCard = () => {
         todoLists.map((todo) => (
           <div
             key={todo.ID}
-            className="w-10/12 h-14 bg-white rounded-3xl shadow-md flex flex-row justify-between px-10 items-center"
+            className={`w-10/12 pt-2 bg-white rounded-3xl shadow-md px-10 overflow-hidden transition-all duration-300 ease-in-out ${
+              expandedTodoId === todo.ID ? 'h-32' : 'h-14'
+            }`}
           >
-            <p className="text-xl">{todo.TodoItem}</p>
+            <div className="w-full flex flex-row justify-between items-center">
+              <p className="text-xl">{todo.TodoItem}</p>
 
-            <div className="flex flex-row gap-6">
-              <button
-                className="text-gray-500 hover:text-blue-500 hover:scale-110 transition-transform duration-200 focus:outline-none p-2 hover:bg-blue-gray-50 rounded-full"
-                aria-label="Edit"
-                onClick={() => handleEditDialogOpen(todo, todo.ID)}
-              >
-                <EditIcon />
-              </button>
-              <button
-                className="text-gray-500 hover:text-red-500 hover:scale-110 transition-transform duration-200 focus:outline-none p-2 hover:bg-blue-gray-50 rounded-full"
-                aria-label="Delete"
-                onClick={() => handleDelete(todo.ID)}
-              >
-                <DeleteIcon />
-              </button>
+              <div className="flex flex-row gap-6">
+                <button
+                  className="text-gray-500 hover:text-blue-500 hover:scale-110 transition-transform duration-200 focus:outline-none p-2 hover:bg-blue-gray-50 rounded-full"
+                  aria-label="Detail"
+                  onClick={() => toggleDetails(todo.ID)}
+                >
+                  <DetailsIcon />
+                </button>
+
+                <button
+                  className="text-gray-500 hover:text-blue-500 hover:scale-110 transition-transform duration-200 focus:outline-none p-2 hover:bg-blue-gray-50 rounded-full"
+                  aria-label="Edit"
+                  onClick={() => handleEditDialogOpen(todo, todo.ID)}
+                >
+                  <EditIcon />
+                </button>
+
+                <button
+                  className="text-gray-500 hover:text-red-500 hover:scale-110 transition-transform duration-200 focus:outline-none p-2 hover:bg-blue-gray-50 rounded-full"
+                  aria-label="Delete"
+                  onClick={() => handleDelete(todo.ID)}
+                >
+                  <DeleteIcon />
+                </button>
+              </div>
+            </div>
+
+            <div
+              className={`transition-opacity duration-300 ${
+                expandedTodoId === todo.ID ? 'opacity-100 mt-4' : 'opacity-0 h-0'
+              }`}
+            >
+              <p className="text-gray-600 text-center">
+                {todo.description || 'No description available.'}
+              </p>
             </div>
           </div>
         ))
       ) : (
-        <p className="text-lg text-gray-500 mt-4">No todos found</p>
+        <p className="text-lg text-gray-500 mt-4">No wish list found</p>
       )}
 
       <Pagination
-        totalPages={Math.ceil(totalRecords / limit)} 
-        initialPage={page} 
-        onPageChange={handlePageChange} 
+        totalPages={Math.ceil(totalRecords / limit)}
+        initialPage={page}
+        onPageChange={handlePageChange}
       />
 
       <EditDialog

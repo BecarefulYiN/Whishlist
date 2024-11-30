@@ -25,7 +25,7 @@ const TodoDisplayCard = () => {
           font-bold
         '
       >
-        Todo List
+        Wish Lists
       </p>
       <TodoCard/>
     </div>

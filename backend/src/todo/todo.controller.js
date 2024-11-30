@@ -45,6 +45,7 @@ const getAllTodoLists = async (req, res) => {
 
 const createTodoList = async (req, res) => {
   const { TodoItem } = req.body;
+  const {description} = req.body;
   const userId = req.user.userId;
 
   const validation = validateTodoItem(TodoItem);
@@ -53,7 +54,7 @@ const createTodoList = async (req, res) => {
   }
 
   try {
-    await pool.query(queries.createTodoList, [TodoItem,userId]);
+    await pool.query(queries.createTodoList, [TodoItem,userId,description]);
     res.status(200).json({ message: "Created successfully" });
   } catch (error) {
     res.status(500).json({ Message: error.message });
