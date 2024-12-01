@@ -13,7 +13,8 @@ const LoginForm = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (event) => {
+    event.preventDefault();
     const payload = {
         "email": email,
         "password": password
@@ -41,29 +42,32 @@ const LoginForm = () => {
           Login
         </p>
 
-      <Input type="email" label="Email" value={email} onChange={handleEmailChange}/>
-
-      <Input
-        type={showPassword ? "text" : "password"}
-        value={password}
-        label="Password"
-        onChange={handlePasswordChange}
-        icon={
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="focus:outline-none text-gray-600 "
-          >
-            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-          </button>
-        }
-      />
-
-      <Button
-        onClick={handleLogin}
-      >
-        Login
-      </Button>
+        <form onSubmit={handleLogin} className="flex flex-col gap-5">
+        <Input
+          type="email"
+          label="Email"
+          value={email}
+          onChange={handleEmailChange}
+          required
+        />
+        <Input
+          type={showPassword ? "text" : "password"}
+          value={password}
+          label="Password"
+          onChange={handlePasswordChange}
+          required
+          icon={
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="focus:outline-none text-gray-600"
+            >
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </button>
+          }
+        />
+        <Button type="submit">Login</Button>
+      </form>
 
         <a
           className='underline cursor-pointer'

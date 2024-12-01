@@ -122,7 +122,14 @@ const RegisterForm = () => {
         )}
       </div>
 
-      <Button onClick={handleSubmit}>
+      <Button 
+      onClick={handleSubmit}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') {
+          handleSubmit();
+        }
+      }}
+      >
         Register
       </Button>
 

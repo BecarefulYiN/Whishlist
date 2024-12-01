@@ -3,16 +3,21 @@ import TodoCreateCard from '../components/Cards/Todo/TodoCreateCard.jsx';
 import TodoDisplayCard from '../components/Cards/Todo/TodoDisplayCard.jsx';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import RestoreSlidePage from '../components/SlidePage/Todo/RestoreSlidePage.jsx';
+import NavbarComponent from '../components/Navbar/NavbarComponent.jsx';
+
+
 
 export const HomePage = () => {
   const [isSlidePageVisible, setIsSlidePageVisible] = useState(false);
-  
+
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (!token) {
       window.location.replace('/login');
     }
+
+   
   }, []);
 
   const toggleSlidePage = () => {
@@ -21,8 +26,6 @@ export const HomePage = () => {
 
   return (
     <>
-  
-    
       <div
         className='
       flex 
@@ -33,10 +36,15 @@ export const HomePage = () => {
       bg-gray-300 
       h-screen 
       relative
+      pt-14
       '
       >
+        <NavbarComponent/>
         <TodoCreateCard />
         <TodoDisplayCard />
+
+
+
         <button
           className='
           absolute
@@ -47,7 +55,7 @@ export const HomePage = () => {
           hover:text-green-700
         '
           style={{
-            top: "294px"
+            top: "327px "
           }}
           onClick={toggleSlidePage}
         >
