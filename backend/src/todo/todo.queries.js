@@ -18,6 +18,14 @@ const getAllTodoListThatHaveBeenDelected = 'SELECT "ID", "TodoItem", "Complete",
 
 const restoreTheDeletedList = `UPDATE "TodoList" SET "IsActive"=true WHERE "ID"= $1;`
 
+const getTotalTodoCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "userId" = $1;'
+
+const getCompleteTodoCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "userId" = $1 AND "Complete" = true AND "IsActive" = true;'
+
+const getIncompleteTodoCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "userId" = $1 AND "Complete" = false AND "IsActive" = true;'
+
+const getDeleteedTodoCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "userId" = $1 AND "IsActive" = false;'
+
 module.exports = {
   getActiveTodoListById,
   createTodoList,
@@ -27,5 +35,9 @@ module.exports = {
   getTodoListCount,
   getAllTodoListPaginated,
   getAllTodoListThatHaveBeenDelected,
-  restoreTheDeletedList
+  restoreTheDeletedList,
+  getTotalTodoCount,
+  getCompleteTodoCount,
+  getIncompleteTodoCount,
+  getDeleteedTodoCount
 }

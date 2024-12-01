@@ -26,6 +26,30 @@ export const GetTodoListsAPI = async (payload, setTodoLists, setTotalRecords) =>
   }
 };
 
+export const GetTheTotalCountAPI = async (setTotalCount,setComplete,setIncomplete,setDeleted) => {
+  try {
+    const endpoint = 'api/v1/todo/total';
+
+    const headers = {
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+    };
+
+    const res = await apiClient.get(endpoint,{headers: headers});
+
+    if (res.status === 200) {
+      setTotalCount(res?.data?.TotalCount || 0)
+      setComplete(res?.data?.Complete || 0)
+      setIncomplete(res?.data?.Incomplete || 0)
+      setDeleted(res?.data?.Deleted || 0)
+    }else {
+      console.error("Failed to fetch todo lists:", res.data?.Message || "Unknown error");
+    }
+
+  } catch (error) {
+    console.error("Error in GetTodoListsAPI:", error.message);
+  }
+}
+
 export const CreateTodoListsAPI = async (payload) => {
   try {
     const endpoint = 'api/v1/todo';

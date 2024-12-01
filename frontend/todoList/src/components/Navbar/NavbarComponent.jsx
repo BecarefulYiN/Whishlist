@@ -30,7 +30,7 @@ const NavbarComponent = () => {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="/dashboard" className="flex items-center">
           Dashboard
         </a>
       </Typography>
@@ -40,7 +40,7 @@ const NavbarComponent = () => {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="/" className="flex items-center">
           Wishlist
         </a>
       </Typography>

@@ -43,8 +43,6 @@ export const HomePage = () => {
         <TodoCreateCard />
         <TodoDisplayCard />
 
-
-
         <button
           className='
           absolute

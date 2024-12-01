@@ -6,7 +6,7 @@ const authenticateJWT = require('../middleware/JWTAuthentication.js');
 //getAll
 router.post('/filter',authenticateJWT, controller.getAllTodoLists)
 router.get('/deleted-items', authenticateJWT, controller.getAllTodoListThatHaveBeenDelected)
-
+router.get('/total', authenticateJWT, controller.getTotalCount)
 //post
 router.post('/', authenticateJWT,controller.createTodoList)
 

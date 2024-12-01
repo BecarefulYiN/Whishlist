@@ -136,11 +136,38 @@ const restoreTheDeletedList = async (req,res) => {
   }
 } 
 
+const getTotalCount = async (req,res) => {
+  try {
+    const userId = req.user.userId;
+    
+    const totalResult = await pool.query(queries.getTotalTodoCount, [userId]);
+    const completeResult = await pool.query(queries.getCompleteTodoCount, [userId])
+    const incompleteResult = await pool.query(queries.getIncompleteTodoCount, [userId])
+    const deletedResult = await pool.query(queries.getDeleteedTodoCount, [userId])
+
+    const totalCount = totalResult.rows[0]?.count || 0; 
+    const complete = completeResult.rows[0]?.count || 0;
+    const incomplete = incompleteResult.rows[0]?.count || 0;
+    const deleted = deletedResult.rows[0]?.count || 0;
+
+    res.status(200).json({
+      TotalCount: Number(totalCount),
+      Complete:  Number(complete),
+      Incomplete:  Number(incomplete),
+      Deleted:  Number(deleted),
+    });
+
+  } catch (error) {
+    res.status(500).json({ Message: error.message });
+  }
+}
+
 module.exports = {
   getAllTodoLists,
   createTodoList,
   deleteTodoList,
   UpdateTodoList,
   getAllTodoListThatHaveBeenDelected,
-  restoreTheDeletedList
+  restoreTheDeletedList,
+  getTotalCount
 };
