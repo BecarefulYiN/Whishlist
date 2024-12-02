@@ -95,7 +95,7 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
                 color="gray"
                 className="max-w-sm font-normal"
               >
-                Total WishList - ${totalCount}
+                Total WishList - {totalCount}
               </Typography>
             <Chart {...chartConfig} />
           </CardBody>

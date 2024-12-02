@@ -10,13 +10,14 @@ const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
   useEffect(() => {
     if (selectedTodo) {
       setTodoText(selectedTodo.TodoItem); 
+      setDescription(selectedTodo.description)
     }
   }, [selectedTodo]);
 
   const handleSave = async () => {
     const payload = {
       TodoItem: todoText,  
-      description: description
+      description : description
     };
 
     try {
@@ -35,9 +36,11 @@ const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
   return (
     <Dialog  className='bg-gray-100 rounded-3xl p-10 shadow-md' open={open}>
       <DialogHeader>Edit Todo Wish list</DialogHeader>
-      <DialogBody >
+      <DialogBody className='flex flex-col gap-5' >
+        <h6>Wish</h6>
         <input
           type="text"
+          
           value={todoText}
           onChange={(e) => setTodoText(e.target.value)} 
           className="w-full p-2 rounded-md border border-gray-300 focus:outline-none
@@ -47,7 +50,7 @@ const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
           shadow-sm
           transition-all"
         />
-
+  <h6>Description</h6>
 <input
           type="text"
           value={description}

@@ -6,7 +6,7 @@ const getTodoListById = 'SELECT "ID", "TodoItem", "Complete", "IsActive", "userI
 
 const createTodoList = 'INSERT INTO "TodoList" ("TodoItem","userId", description) VALUES ($1,$2, $3);'
 
-const editTodoList = 'UPDATE "TodoList" SET "TodoItem"=$1 AND description =$2 WHERE "ID"= $3;'
+const editTodoList = 'UPDATE "TodoList" SET "TodoItem"=$1 , description =$2 WHERE "ID"= $3;'
 
 const deleteTodoList = 'UPDATE "TodoList" SET "IsActive"=false WHERE "ID"= $1;'
 
