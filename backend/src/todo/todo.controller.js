@@ -86,6 +86,7 @@ const deleteTodoList = async (req, res) => {
 const UpdateTodoList = async (req, res) => {
   const { id } = req.params;
   const { TodoItem } = req.body;
+  const {description} = req.body
 
   const validation = validateTodoItem(TodoItem);
   if (!validation.valid) {
@@ -103,7 +104,7 @@ const UpdateTodoList = async (req, res) => {
       return res.status(400).json({ Message: activeValidation.message });
     }
 
-    await pool.query(queries.editTodoList, [TodoItem, id]);
+    await pool.query(queries.editTodoList, [TodoItem,description, id]);
     res.status(200).json({ Message: "Updated successfully" });
   } catch (error) {
     res.status(500).json({ Message: error.message });
@@ -127,10 +128,8 @@ const getAllTodoListThatHaveBeenDelected = async(req, res) => {
 const restoreTheDeletedList = async (req,res) => {
   try {
     const { id } = req.params;
-
     await pool.query(queries.restoreTheDeletedList, [id]);
     res.status(200).json({ Message: "Restore Successfully" });
-  
   } catch (error) {
     res.status(500).json({ Message: error.message });
   }

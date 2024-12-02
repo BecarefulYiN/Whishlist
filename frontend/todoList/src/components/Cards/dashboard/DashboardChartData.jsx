@@ -16,6 +16,7 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
     width: 280,
     height: 280,
     series: [complete, incomplete, deleted],
+    series: [complete, incomplete, deleted],
     options: {
       chart: {
         toolbar: {
@@ -32,8 +33,8 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
           return `${labels[opts.seriesIndex]}: ${val.toFixed(1)}%`;
         },
       },
-      labels: [ "Complete", "Incomplete", "Deleted"],
-      colors: [ "#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
+      labels: ["Complete", "Incomplete", "Deleted"],
+      colors: ["#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
       legend: {
         show: true,
         position: "bottom",
@@ -46,7 +47,7 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
         },
         custom: function ({ seriesIndex, series, dataPointIndex, w }) {
 
-          const labels = [ "Complete", "Incomplete", "Deleted"];
+          const labels = ["Complete", "Incomplete", "Deleted"];
           return `
             <div style="padding: 10px;">
               <strong>${labels[seriesIndex]}</strong><br>
@@ -87,13 +88,14 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
               </Typography>
             </div>
           </CardHeader>
+
           <CardBody className="mt-4 mb-9 grid place-items-center px-2">
           <Typography
                 variant="small"
                 color="gray"
                 className="max-w-sm font-normal"
               >
-                Total Count - {totalCount}
+                Total WishList - ${totalCount}
               </Typography>
             <Chart {...chartConfig} />
           </CardBody>
