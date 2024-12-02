@@ -1,0 +1,57 @@
+-- Database: TodoDB
+
+-- DROP DATABASE IF EXISTS "TodoDB";
+
+CREATE DATABASE "TodoDB"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.UTF-8'
+    LC_CTYPE = 'en_US.UTF-8'
+    LOCALE_PROVIDER = 'libc'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
+-- Table: public.User_Account
+
+-- DROP TABLE IF EXISTS public."User_Account";
+
+CREATE TABLE IF NOT EXISTS public."User_Account"
+(
+    "userId" integer NOT NULL DEFAULT nextval('"User_Account_userId_seq"'::regclass),
+    "userName" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "User_Account_pkey" PRIMARY KEY ("userId")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."User_Account"
+    OWNER to postgres;
+
+-- Table: public.TodoList
+
+-- DROP TABLE IF EXISTS public."TodoList";
+
+CREATE TABLE IF NOT EXISTS public."TodoList"
+(
+    "ID" integer NOT NULL DEFAULT nextval('"TodoList_ID_seq"'::regclass),
+    "TodoItem" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    "Complete" boolean NOT NULL DEFAULT false,
+    "IsActive" boolean NOT NULL DEFAULT true,
+    "userId" integer,
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT "TodoList_pkey" PRIMARY KEY ("ID"),
+    CONSTRAINT user_todo_fk FOREIGN KEY ("userId")
+        REFERENCES public."User_Account" ("userId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."TodoList"
+    OWNER to postgres;
