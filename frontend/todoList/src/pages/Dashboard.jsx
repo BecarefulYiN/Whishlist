@@ -13,13 +13,6 @@ const Dashboard = () => {
   const [deleted, setDeleted] = useState(null)
 
   useEffect(() => {
-    const fatchData = async () => {
-      await GetTheTotalCountAPI(setTotalCount,setComplete, setIncomplete,setDeleted);
-    };
-    fatchData();
-  }, []);
-
-  useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (!token) {
       window.location.replace('/login');
@@ -28,6 +21,15 @@ const Dashboard = () => {
     const decoded = jwtDecode(token);
     setUserName(decoded.userName);
   }, []);
+
+  useEffect(() => {
+    const fatchData = async () => {
+      await GetTheTotalCountAPI(setTotalCount,setComplete, setIncomplete,setDeleted);
+    };
+    fatchData();
+  }, []);
+
+  
 
   return (
     <>
