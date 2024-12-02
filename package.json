@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon backend/server.js",
-    "build" : "npm install && npm install --prefix frontend/todoList && npm run build --prefix frontend/todoList",
-    "start": "node backend/server.js"
+    "build": "npm install && npm install --prefix frontend/todoList && npm run build --prefix frontend/todoList",
+    "start": "node backend/server.js && npx open http://localhost:5000"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "pg": "^8.13.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "open": "^10.1.0"
   }
 }
