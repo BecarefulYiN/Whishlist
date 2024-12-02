@@ -5,6 +5,7 @@ import { UpdateTodoAPI } from '../../../api/todo/TodoListController.js';
 
 const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
   const [todoText, setTodoText] = useState('');
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
     if (selectedTodo) {
@@ -15,6 +16,7 @@ const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
   const handleSave = async () => {
     const payload = {
       TodoItem: todoText,  
+      description: description
     };
 
     try {
@@ -38,6 +40,18 @@ const EditDialog = ({ open, handleClose, selectedTodo, selectedId }) => {
           type="text"
           value={todoText}
           onChange={(e) => setTodoText(e.target.value)} 
+          className="w-full p-2 rounded-md border border-gray-300 focus:outline-none
+          focus:ring-1
+          focus:ring-blue-500
+          focus:border-blue-500
+          shadow-sm
+          transition-all"
+        />
+
+<input
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)} 
           className="w-full p-2 rounded-md border border-gray-300 focus:outline-none
           focus:ring-1
           focus:ring-blue-500
