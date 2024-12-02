@@ -47,6 +47,10 @@ const RegisterForm = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const handleLogin = () => {
+    window.location.replace('/login')
+  }
+
   return (
     <Card className="px-10 py-20 w-1/4 h-auto flex flex-col justify-center shadow-lg align-middle gap-6 content-center text-center">
 
@@ -133,7 +137,7 @@ const RegisterForm = () => {
         Register
       </Button>
 
-      <a className="underline cursor-pointer">Already have an account?</a>
+      <a className="underline cursor-pointer" onClick={handleLogin}>Already have an account?</a>
     </Card>
   );
 };
