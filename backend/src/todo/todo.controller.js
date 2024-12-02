@@ -162,6 +162,17 @@ const getTotalCount = async (req,res) => {
   }
 }
 
+const updateToComplete = async (req,res) => {
+  const { id } = req.params;
+  const {Complete} = req.body;
+  try {
+    await pool.query(queries.updateToComnplete, [Complete, id]);
+    res.status(200).json({ Message: "Updated successfully" });
+  } catch (error) {
+    res.status(500).json({ Message: error.message });
+  }
+}
+
 module.exports = {
   getAllTodoLists,
   createTodoList,
@@ -169,5 +180,6 @@ module.exports = {
   UpdateTodoList,
   getAllTodoListThatHaveBeenDelected,
   restoreTheDeletedList,
-  getTotalCount
+  getTotalCount,
+  updateToComplete
 };

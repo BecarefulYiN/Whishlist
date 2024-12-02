@@ -26,6 +26,8 @@ const getIncompleteTodoCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "userId" =
 
 const getDeleteedTodoCount = 'SELECT COUNT(*) FROM "TodoList" WHERE "userId" = $1 AND "IsActive" = false;'
 
+const updateToComnplete = `UPDATE "TodoList" SET "Complete"=$1 WHERE "ID"= $2;`
+
 module.exports = {
   getActiveTodoListById,
   createTodoList,
@@ -39,5 +41,6 @@ module.exports = {
   getTotalTodoCount,
   getCompleteTodoCount,
   getIncompleteTodoCount,
-  getDeleteedTodoCount
+  getDeleteedTodoCount,
+  updateToComnplete
 }

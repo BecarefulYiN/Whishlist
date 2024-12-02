@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DetailsIcon from '@mui/icons-material/Details';
-import { DeleteTodoAPI, GetTodoListsAPI } from '../../../api/todo/TodoListController.js';
+import { DeleteTodoAPI, GetTodoListsAPI, UpdateCompleteState } from '../../../api/todo/TodoListController.js';
 import EditDialog from '../../Dialog/Todo/EditDialog.jsx';
 import Pagination from '../../Pagination/Pagination.jsx';
 
 const TodoCard = () => {
   const [todoLists, setTodoLists] = useState([]);
-  const [expandedTodoId, setExpandedTodoId] = useState(null); // Tracks which card is expanded
+  const [expandedTodoIds, setExpandedTodoIds] = useState(new Set()); 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(4);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -57,7 +57,36 @@ const TodoCard = () => {
   };
 
   const toggleDetails = (id) => {
-    setExpandedTodoId((prevId) => (prevId === id ? null : id)); // Toggle the expansion
+    setExpandedTodoIds((prevIds) => {
+      const updatedIds = new Set(prevIds);
+      if (updatedIds.has(id)) {
+        updatedIds.delete(id);
+      } else {
+        updatedIds.add(id); 
+      }
+      return updatedIds;
+    });
+  };
+
+  const handleCheckboxChange = async (todo) => {
+    const updatedComplete = !todo.Complete;
+
+    try {
+      const payload = { Complete: updatedComplete };
+      const response = await UpdateCompleteState(todo.ID, payload);
+
+      if (response !== null) {
+        setTodoLists((prevTodoLists) =>
+          prevTodoLists.map((item) =>
+            item.ID === todo.ID ? { ...item, Complete: updatedComplete } : item
+          )
+        );
+      } else {
+        console.error('Failed to update todo complete status');
+      }
+    } catch (error) {
+      console.error('Error updating todo:', error.message);
+    }
   };
 
   return (
@@ -67,8 +96,8 @@ const TodoCard = () => {
           <div
             key={todo.ID}
             className={`w-10/12 pt-2 bg-white rounded-3xl shadow-md px-10 overflow-hidden transition-all duration-300 ease-in-out ${
-              expandedTodoId === todo.ID ? 'h-32' : 'h-14'
-            }`}
+              expandedTodoIds.has(todo.ID) ? 'h-32' : 'h-14'
+            } ${todo.Complete ? 'bg-green-200' : ''}`}
           >
             <div className="w-full flex flex-row justify-between items-center">
               <p className="text-xl">{todo.TodoItem}</p>
@@ -97,12 +126,21 @@ const TodoCard = () => {
                 >
                   <DeleteIcon />
                 </button>
+
+                <div className="flex justify-end items-center">
+                  <input
+                    type="checkbox"
+                    checked={todo.Complete}
+                    onChange={() => handleCheckboxChange(todo)}
+                    className="cursor-pointer w-4 h-4"
+                  />
+                </div>
               </div>
             </div>
 
             <div
               className={`transition-opacity duration-300 ${
-                expandedTodoId === todo.ID ? 'opacity-100 mt-4' : 'opacity-0 h-0'
+                expandedTodoIds.has(todo.ID) ? 'opacity-100 mt-4' : 'opacity-0 h-0'
               }`}
             >
               <p className="text-gray-600 text-center">

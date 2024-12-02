@@ -140,3 +140,14 @@ export const RestoreDelectedTodoItemsAPI = async (id) => {
   }
 }
 
+export const UpdateCompleteState = async (id,payload) => {
+  try {
+    const endpoint = `api/v1/todo/set-complete/${id}`;
+    const res = await apiClient.put(endpoint,payload)
+    return res
+  }catch(error) {
+    console.error("Error in UpdateTodoAPI:", error.message);
+    return null;
+  }
+}
+

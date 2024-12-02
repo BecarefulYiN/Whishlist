@@ -18,7 +18,7 @@ export const LoginAPI = async (payload) => {
 
       toast.success("Login Successful");
 
-      window.location.replace("/");
+      window.location.replace("/dashboard");
     }
   } catch (error) {
     if (error.response && error.response.data && error.response.data.Message) {

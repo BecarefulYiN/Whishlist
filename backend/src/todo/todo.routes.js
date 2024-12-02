@@ -16,7 +16,7 @@ router.patch("/:id",controller.deleteTodoList)
 //update 
 router.put("/:id", controller.UpdateTodoList)
 router.put("/restore-delected/:id", controller.restoreTheDeletedList)
-
+router.put("/set-complete/:id", controller.updateToComplete)
 
 
 module.exports = router

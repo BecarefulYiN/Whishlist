@@ -6,7 +6,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
+import EastRoundedIcon from '@mui/icons-material/EastRounded';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
 
@@ -25,12 +26,19 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
         show: false,
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
+        formatter: (val, opts) => {
+          const labels = ["Total Count", "Complete", "Incomplete", "Deleted"];
+          return `${labels[opts.seriesIndex]}: ${val.toFixed(1)}%`;
+        },
       },
+      labels: ["Total Count", "Complete", "Incomplete", "Deleted"],
       colors: ["#020617", "#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
       legend: {
-        show: false,
+        show: true,
+        position: "bottom",
       },
+
       tooltip: {
         enabled: true,
         y: {
@@ -50,8 +58,14 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
     },
   };
 
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate('/')
+  }
+
   return (
-    <div className="w-1/2">
+    <div className="w-1/2 h-auto relative ">
       {totalCount !== 0 ? (
         <Card>
           <CardHeader
@@ -60,35 +74,62 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
             color="transparent"
             className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
           >
-            <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
-              <Square3Stack3DIcon className="h-6 w-6" />
-            </div>
             <div>
               <Typography variant="h6" color="blue-gray">
-                Pie Chart
+                Tracking your wishlist state
               </Typography>
               <Typography
                 variant="small"
                 color="gray"
                 className="max-w-sm font-normal"
               >
-                Visualize your data in a simple way using the
-                <span className="font-bold"> Material Tailwind</span> chart plugin.
+                Visualize your data in a simple way
               </Typography>
             </div>
           </CardHeader>
-          <CardBody className="mt-4 grid place-items-center px-2">
+          <CardBody className="mt-4 mb-9 grid place-items-center px-2">
             <Chart {...chartConfig} />
           </CardBody>
+
+
         </Card>
       ) : (
         <Card>
-          <p className="text-center text-gray-600">
-            Let's start creating your Wishlist
-          </p>
+          <CardHeader
+            floated={false}
+            shadow={false}
+            color="transparent"
+            className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
+          >
+            <div>
+              <Typography variant="h6" color="blue-gray">
+                Tracking your wishlist state
+              </Typography>
+              <Typography
+                variant="small"
+                color="gray"
+                className="max-w-sm font-normal"
+              >
+                Visualize your data in a simple way
+              </Typography>
+            </div>
+          </CardHeader>
+          <CardBody className="mt-4 mb-9 grid place-items-center h-80 px-2">
+            <p className="text-center text-gray-600">
+              Let's start creating your Wishlist <br/>
+              Let make then come true
+            </p>
+          </CardBody>
+
         </Card>
 
       )}
+
+      <div
+        onClick={handleNavigate}
+        className='absolute bottom-2 right-9 hover:text-blue-gray-600'>
+        Go to create your wishlist <EastRoundedIcon />
+      </div>
     </div>
   );
 };
