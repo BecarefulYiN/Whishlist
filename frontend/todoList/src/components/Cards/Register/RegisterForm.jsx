@@ -22,7 +22,7 @@ const RegisterForm = () => {
     }
     if (!password) {
       newErrors.password = "Password is required.";
-    } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password)) {
+    } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password)) {
       newErrors.password = "Password must be at least 6 characters contain at least one number and one letter.";
     }
     if (!confirmPassword) {

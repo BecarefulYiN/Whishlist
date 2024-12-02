@@ -8,10 +8,11 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
-  // Password must be at least 6 characters long and contain at least one number and one letter
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+  // Password must be at least 6 characters long and contain at least one letter, one number, and one special character
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
   return passwordRegex.test(password);
 };
+
 
 
 const isEmailExist = async (email) => {

@@ -95,9 +95,9 @@ const TodoCard = () => {
         todoLists.map((todo) => (
           <div
             key={todo.ID}
-            className={`w-10/12 pt-2 bg-white rounded-3xl shadow-md px-10 overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`w-10/12 pt-2  rounded-3xl shadow-md px-10 overflow-hidden transition-all duration-300 ease-in-out ${
               expandedTodoIds.has(todo.ID) ? 'h-32' : 'h-14'
-            } ${todo.Complete ? 'bg-green-200' : ''}`}
+            } ${todo.Complete ? 'bg-green-200' : 'bg-white'}`}
           >
             <div className="w-full flex flex-row justify-between items-center">
               <p className="text-xl">{todo.TodoItem}</p>
