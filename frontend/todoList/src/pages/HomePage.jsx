@@ -21,6 +21,7 @@ export const HomePage = () => {
   }, []);
 
   const toggleSlidePage = () => {
+    
     setIsSlidePageVisible(!isSlidePageVisible);
   };
 

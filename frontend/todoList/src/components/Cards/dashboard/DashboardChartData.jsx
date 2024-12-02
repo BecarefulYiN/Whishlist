@@ -15,7 +15,7 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
     type: "pie",
     width: 280,
     height: 280,
-    series: [totalCount, complete, incomplete, deleted],
+    series: [complete, incomplete, deleted],
     options: {
       chart: {
         toolbar: {
@@ -28,12 +28,12 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
       dataLabels: {
         enabled: true,
         formatter: (val, opts) => {
-          const labels = ["Total Count", "Complete", "Incomplete", "Deleted"];
+          const labels = [ "Complete", "Incomplete", "Deleted"];
           return `${labels[opts.seriesIndex]}: ${val.toFixed(1)}%`;
         },
       },
-      labels: ["Total Count", "Complete", "Incomplete", "Deleted"],
-      colors: ["#020617", "#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
+      labels: [ "Complete", "Incomplete", "Deleted"],
+      colors: [ "#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
       legend: {
         show: true,
         position: "bottom",
@@ -46,7 +46,7 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
         },
         custom: function ({ seriesIndex, series, dataPointIndex, w }) {
 
-          const labels = ["Total Count", "Complete", "Incomplete", "Deleted"];
+          const labels = [ "Complete", "Incomplete", "Deleted"];
           return `
             <div style="padding: 10px;">
               <strong>${labels[seriesIndex]}</strong><br>
@@ -88,6 +88,13 @@ const DashboardChartData = ({ totalCount, complete, incomplete, deleted }) => {
             </div>
           </CardHeader>
           <CardBody className="mt-4 mb-9 grid place-items-center px-2">
+          <Typography
+                variant="small"
+                color="gray"
+                className="max-w-sm font-normal"
+              >
+                Total Count - {totalCount}
+              </Typography>
             <Chart {...chartConfig} />
           </CardBody>
 

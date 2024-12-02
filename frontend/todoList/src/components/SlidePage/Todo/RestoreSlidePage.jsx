@@ -8,12 +8,13 @@ const RestoreSlidePage = ({ isSlidePageVisible, setIsSlidePageVisible }) => {
   const [delectedItems, setDelectedItems] = useState([])
 
   useEffect(() => {
-    const loadingData = async () => {
-      await (GetDelectedTodoItemsAPI(setDelectedItems))
+    if (isSlidePageVisible) {
+      const loadingData = async () => {
+        await GetDelectedTodoItemsAPI(setDelectedItems)
+      }
+      loadingData()
     }
-
-    loadingData();
-  }, [])
+  }, [isSlidePageVisible]) 
 
   const handleRestore = async (id) => {
     try {

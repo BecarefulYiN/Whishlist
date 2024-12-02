@@ -23,7 +23,8 @@
     "react-apexcharts": "^1.6.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.1",
-    "react-toastify": "^10.0.6"
+    "react-toastify": "^10.0.6",
+    "todo_list": "file:../.."
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
