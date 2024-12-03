@@ -37,13 +37,12 @@ export const RegisterAPI = async (payload) => {
     const res = await apiClient.post(endpoint, payload);
 
     if (res.status === 200) {
-      toast.success("Account created successfully!");
       window.location.replace('/login');
       console.log(res.data.Message);
     }
   } catch (error) {
     if (error.response && error.response.data && error.response.data.Message) {
-      toast.error(error.response.data.Message); 
+  
       console.log(error.response.data.Message);
     } else {
       toast.error("An unexpected error occurred.");

@@ -5,16 +5,18 @@ import DetailsIcon from '@mui/icons-material/Details';
 import { DeleteTodoAPI, GetTodoListsAPI, UpdateCompleteState } from '../../../api/todo/TodoListController.js';
 import EditDialog from '../../Dialog/Todo/EditDialog.jsx';
 import Pagination from '../../Pagination/Pagination.jsx';
+import './Todo.css'
 
-const TodoCard = () => {
+const TodoCard = ({refreshTodoList }) => {
   const [todoLists, setTodoLists] = useState([]);
-  const [expandedTodoIds, setExpandedTodoIds] = useState(new Set()); 
+  const [expandedTodoIds, setExpandedTodoIds] = useState(new Set());
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(4);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [selectedId, setSelectedId] = useState('');
+  const [deletingId, setDeletingId] = useState(null); // Track item being deleted
 
   useEffect(() => {
     const fetchTodoLists = async () => {
@@ -23,23 +25,38 @@ const TodoCard = () => {
     };
 
     fetchTodoLists();
-  }, [page, limit]);
+  }, [page, limit, refreshTodoList]);
 
   const handleDelete = async (id) => {
-    try {
-      const response = await DeleteTodoAPI(id);
-      if (response?.status === 200) {
-        setTodoLists((prevTodoLists) =>
-          prevTodoLists.filter((todo) => todo.ID !== id)
-        );
-        setTotalRecords((prevTotal) => prevTotal - 1);
-      } else {
-        console.error('Failed to delete todo');
+    setDeletingId(id); 
+    setTimeout(async () => {
+      try {
+        const response = await DeleteTodoAPI(id);
+        if (response?.status === 200) {
+          
+          setTotalRecords((prevTotal) => prevTotal - 1);
+  
+          
+          const payload = { page, limit };
+          await GetTodoListsAPI(payload, (updatedList) => {
+            setTodoLists(updatedList);
+          }, null);
+  
+          if (todoLists.length === 1 && page > 1) {
+            setPage((prevPage) => prevPage - 1);
+          }
+        } else {
+          console.error("Failed to delete todo");
+        }
+      } catch (error) {
+        console.error("Error deleting todo:", error.message);
+      } finally {
+        setDeletingId(null); // Reset after deletion
       }
-    } catch (error) {
-      console.error('Error deleting todo:', error.message);
-    }
+    }, 500); // Animation duration (matches CSS)
   };
+  
+  
 
   const handleEditDialogOpen = (todo, id) => {
     setSelectedTodo(todo);
@@ -62,7 +79,7 @@ const TodoCard = () => {
       if (updatedIds.has(id)) {
         updatedIds.delete(id);
       } else {
-        updatedIds.add(id); 
+        updatedIds.add(id);
       }
       return updatedIds;
     });
@@ -95,9 +112,11 @@ const TodoCard = () => {
         todoLists.map((todo) => (
           <div
             key={todo.ID}
-            className={`w-10/12 pt-2  rounded-3xl shadow-md px-10 overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`w-10/12 pt-2 rounded-3xl shadow-md px-10 overflow-hidden transition-all duration-300 ease-in-out ${
               expandedTodoIds.has(todo.ID) ? 'h-32' : 'h-14'
-            } ${todo.Complete ? 'bg-green-200' : 'bg-white'}`}
+            } ${todo.Complete ? 'bg-green-200' : 'bg-white'} ${
+              deletingId === todo.ID ? 'animate-delete' : ''
+            }`}
           >
             <div className="w-full flex flex-row justify-between items-center">
               <p className="text-xl">{todo.TodoItem}</p>
@@ -170,3 +189,4 @@ const TodoCard = () => {
 };
 
 export default TodoCard;
+

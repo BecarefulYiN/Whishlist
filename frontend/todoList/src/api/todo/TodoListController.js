@@ -59,10 +59,10 @@ export const CreateTodoListsAPI = async (payload) => {
     const res = await apiClient.post(endpoint, payload, {headers: headers});
 
     if (res.status === 200) {
-      toast.success("Created successfully.");
+      
       return res;
     } else {
-      toast.error("Created fail.");
+
       return res;
     }
   } catch (error) {
@@ -82,10 +82,10 @@ export const DeleteTodoAPI = async (id) => {
     const res = await apiClient.patch(endpoint, {headers:headers});
 
     if (res.status === 200) {
-      toast.success("Todo deleted successfully");
+  
       return res;
     } else {
-      toast.error("Failed to delete todo");
+
       return null;
     }
   } catch (error) {
@@ -132,7 +132,7 @@ export const RestoreDelectedTodoItemsAPI = async (id) => {
   try {
     const endpoint = `api/v1/todo/restore-delected/${id}`;  
     await apiClient.put(endpoint)
-    toast.success("Restore Successfully")
+
   } catch(error) {
     console.error("Error in UpdateTodoAPI:", error.message);
     toast.error("An error occurred while update the todo");

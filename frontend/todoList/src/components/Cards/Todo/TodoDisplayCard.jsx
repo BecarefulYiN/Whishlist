@@ -1,9 +1,9 @@
-import React from 'react'
-import TodoCard from './TodoCard.jsx'
+import React from 'react';
+import TodoCard from './TodoCard.jsx';
 
-const TodoDisplayCard = () => {
+const TodoDisplayCard = ({ refreshTodoList }) => {
   return (
-    <div 
+    <div
       className='
         w-1/2
         flex
@@ -27,9 +27,9 @@ const TodoDisplayCard = () => {
       >
         Wish Lists
       </p>
-      <TodoCard/>
+      <TodoCard refreshTodoList={refreshTodoList} />
     </div>
-  )
-}
+  );
+};
 
-export default TodoDisplayCard
+export default TodoDisplayCard;

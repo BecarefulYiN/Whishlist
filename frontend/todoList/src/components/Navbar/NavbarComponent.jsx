@@ -28,7 +28,7 @@ const NavbarComponent = () => {
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-normal text-xl"
       >
         <a href="/dashboard" className="flex items-center">
           Dashboard
@@ -40,7 +40,7 @@ const NavbarComponent = () => {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="/" className="flex items-center">
+        <a href="/" className="flex items-center text-xl">
           Wishlist
         </a>
       </Typography>

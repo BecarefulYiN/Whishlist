@@ -5,69 +5,79 @@ import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import RestoreSlidePage from '../components/SlidePage/Todo/RestoreSlidePage.jsx';
 import NavbarComponent from '../components/Navbar/NavbarComponent.jsx';
 
-
-
 export const HomePage = () => {
   const [isSlidePageVisible, setIsSlidePageVisible] = useState(false);
-
+  const [refreshTodoList, setRefreshTodoList] = useState(false); // State to trigger re-fetch
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (!token) {
       window.location.replace('/login');
     }
-
-   
   }, []);
 
   const toggleSlidePage = () => {
-    
     setIsSlidePageVisible(!isSlidePageVisible);
   };
 
+  const handleRestore = () => {
+    setRefreshTodoList((prevState) => !prevState); // Toggle state to trigger refresh
+  };
+
   return (
-    <>
-      <div
-        className='
-      flex 
-      flex-col 
-      gap-10
-      w-screen 
-      items-center
-      bg-gray-300 
-      h-screen 
-      relative
-      pt-14
+    <div
+      className='
+        flex 
+        flex-col 
+        items-center 
+        gap-10 
+        justify-center
+        content-center
+        bg-gray-300 
+        min-h-screen 
+        pt-14 
+        relative
       '
-      >
-        <NavbarComponent/>
+    >
+      {/* Navbar */}
+      <NavbarComponent />
+
+
+    
         <TodoCreateCard />
-        <TodoDisplayCard />
+  
 
-        <button
-          className='
-          absolute
-          right-1/3
-          hover:bg-blue-gray-100
-          p-3
-          rounded-full
-          hover:text-green-700
+    
+        <TodoDisplayCard refreshTodoList={refreshTodoList} />
+  
+
+    
+      <button
+        className='
+          fixed 
+          bottom-10 
+          right-10 
+          bg-white 
+          p-4 
+          rounded-full 
+          shadow-lg 
+          hover:bg-gray-100 
+          transition 
+          duration-300 
+          ease-in-out
         '
-          style={{
-            top: "327px "
-          }}
-          onClick={toggleSlidePage}
-        >
-          <RestoreFromTrashIcon />
-        </button>
+        onClick={toggleSlidePage}
+        aria-label="Show Deleted Items"
+      >
+        <RestoreFromTrashIcon className="text-gray-600 hover:text-green-700" fontSize="large" />
+      </button>
 
-        <RestoreSlidePage
-          isSlidePageVisible={isSlidePageVisible}
-          setIsSlidePageVisible={setIsSlidePageVisible}
-        />
-
-      </div>
-    </>
-
+    
+      <RestoreSlidePage
+        isSlidePageVisible={isSlidePageVisible}
+        setIsSlidePageVisible={setIsSlidePageVisible}
+        onRestore={handleRestore} 
+      />
+    </div>
   );
 };

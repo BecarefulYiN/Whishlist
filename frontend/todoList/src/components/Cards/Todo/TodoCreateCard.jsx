@@ -42,7 +42,7 @@ const TodoCreateCard = () => {
         w-1/2 
         bg-blue-gray-50
         h-1/4
-        mt-10
+        mt-8
         rounded-3xl
         flex
         flex-col
@@ -51,6 +51,7 @@ const TodoCreateCard = () => {
         gap-8
         transition-all
         duration-500
+        p-6
       '
     >
       {step === 1 && (

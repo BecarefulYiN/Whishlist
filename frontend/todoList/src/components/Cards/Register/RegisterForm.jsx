@@ -23,7 +23,7 @@ const RegisterForm = () => {
     if (!password) {
       newErrors.password = "Password is required.";
     } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(password)) {
-      newErrors.password = "Password must be at least 6 characters contain at least one number and one letter.";
+      newErrors.password = "Password must be at least 6 characters, and contain at least one letter, one number, and one special character.";
     }
     if (!confirmPassword) {
       newErrors.confirmPassword = "Confirm Password is required.";
@@ -35,12 +35,24 @@ const RegisterForm = () => {
   };
 
   const handleSubmit = async () => {
-    const payload = {
-      "userName": userName,
-      "email": email,
-      "password": password
+    if (!validateInputs()) {
+      return; // Exit if validation fails
     }
-    await RegisterAPI(payload)
+
+    const payload = {
+      userName,
+      email,
+      password,
+    };
+
+    try {
+      await RegisterAPI(payload);
+      alert('Registration successful! Redirecting to login...');
+      window.location.replace('/login');
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("Failed to register. Please try again later.");
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -48,14 +60,14 @@ const RegisterForm = () => {
   };
 
   const handleLogin = () => {
-    window.location.replace('/login')
-  }
+    window.location.replace('/login');
+  };
 
   return (
     <Card className="px-10 py-20 w-1/4 h-auto flex flex-col justify-center shadow-lg align-middle gap-6 content-center text-center">
-
       <p className="text-3xl">Register</p>
 
+      {/* User Name Field */}
       <div className="flex flex-col gap-2">
         <Input
           type="text"
@@ -64,11 +76,10 @@ const RegisterForm = () => {
           onChange={(e) => setUserName(e.target.value)}
           error={Boolean(errors.userName)}
         />
-        {errors.userName && (
-          <p className="text-red-500 text-sm">{errors.userName}</p>
-        )}
+        {errors.userName && <p className="text-red-500 text-sm">{errors.userName}</p>}
       </div>
 
+      {/* Email Field */}
       <div className="flex flex-col gap-2">
         <Input
           type="email"
@@ -77,12 +88,11 @@ const RegisterForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           error={Boolean(errors.email)}
         />
-        {errors.email && (
-          <p className="text-red-500 text-sm">{errors.email}</p>
-        )}
+        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
       </div>
 
-      <div className="flex flex-col gap-2 ">
+      {/* Password Field */}
+      <div className="flex flex-col gap-2">
         <Input
           type={showPassword ? "text" : "password"}
           value={password}
@@ -93,18 +103,17 @@ const RegisterForm = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className=" focus:outline-none text-gray-600"
+              className="focus:outline-none text-gray-600"
             >
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </button>
           }
         />
-        {errors.password && (
-          <p className="text-red-500 text-sm">{errors.password}</p>
-        )}
+        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
       </div>
 
-      <div className="flex flex-col gap-2 ">
+      {/* Confirm Password Field */}
+      <div className="flex flex-col gap-2">
         <Input
           type={showPassword ? "text" : "password"}
           value={confirmPassword}
@@ -115,29 +124,31 @@ const RegisterForm = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className=" focus:outline-none text-gray-600"
+              className="focus:outline-none text-gray-600"
             >
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </button>
           }
         />
-        {errors.confirmPassword && (
-          <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
-        )}
+        {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
       </div>
 
-      <Button 
-      onClick={handleSubmit}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter') {
-          handleSubmit();
-        }
-      }}
+      {/* Register Button */}
+      <Button
+        onClick={handleSubmit}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            handleSubmit();
+          }
+        }}
       >
         Register
       </Button>
 
-      <a className="underline cursor-pointer" onClick={handleLogin}>Already have an account?</a>
+      {/* Redirect to Login */}
+      <a className="underline cursor-pointer" onClick={handleLogin}>
+        Already have an account?
+      </a>
     </Card>
   );
 };
